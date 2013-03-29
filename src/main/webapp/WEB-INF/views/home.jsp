@@ -2,16 +2,20 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Home</title>
+    <title>Home</title>
 </head>
 <body>
 <h1>
-	Hello world!  
+    Hello world!
 </h1>
 
-<P>  The time on the server is ${serverTime}. </P>
+Show the list of people in the database:
+
 <c:forEach items="${personList}" var="data">
-<div>${data.username}</div>
+    <div>${data.username}</div>
 </c:forEach>
+
+<br/>
+<a href="./addPerson">Add a new person</a>
 </body>
 </html>

@@ -1,7 +1,7 @@
-package ch.genidea.mvcTest;
+package ch.genidea.mvcMongoExample;
 
-import ch.genidea.mvcTest.model.Person;
-import ch.genidea.mvcTest.repository.PersonRepository;
+import ch.genidea.mvcMongoExample.model.Person;
+import ch.genidea.mvcMongoExample.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
@@ -23,26 +23,26 @@ public class PersonController {
     @Autowired
     PersonRepository personRepository;
 
-    @RequestMapping(value ="/addPerson", method = RequestMethod.POST)
-    public String addPerson(@ModelAttribute("person") Person person, BindingResult result){
+    @RequestMapping(value = "/savePerson", method = RequestMethod.POST)
+    public String addPerson(@ModelAttribute("person") Person person, BindingResult result) {
 
-       List<Person> personList =personRepository.findByUsername(person.getUsername());
-        if (personList.size() > 0){
+
+        List<Person> personList = personRepository.findByUsername(person.getUsername());
+
+        if (personList.size() > 0) {
             System.out.println("Error username already exists");
         } else {
             System.out.println("Ok: new username");
+            mongoTemplate.save(person);
         }
 
-
-        // System.out.println("Name : " + person.getUsername());
-        // mongoTemplate.save(person);
-
-        return "redirect:persons.html";
+        return "redirect:/";
     }
 
-    @RequestMapping("/persons")
+    @RequestMapping("/addPerson")
     public ModelAndView showContacts() {
 
         return new ModelAndView("person", "command", new Person());
+
     }
 }

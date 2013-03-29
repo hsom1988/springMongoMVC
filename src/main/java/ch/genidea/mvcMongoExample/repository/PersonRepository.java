@@ -1,6 +1,6 @@
-package ch.genidea.mvcTest.repository;
+package ch.genidea.mvcMongoExample.repository;
 
-import ch.genidea.mvcTest.model.Person;
+import ch.genidea.mvcMongoExample.model.Person;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

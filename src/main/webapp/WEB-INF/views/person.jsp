@@ -6,11 +6,9 @@
 	<title>Home</title>
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
 
-<form:form method="post" action="addPerson.html">
+Add a new person:
+<form:form method="post" action="savePerson.html">
     <table>
         <tr>
             <td> <form:label path="username">Username</form:label></td>

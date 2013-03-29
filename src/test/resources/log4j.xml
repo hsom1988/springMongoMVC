@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="ch.genidea.mvcTest">
+	<logger name="ch.genidea.mvcMongoExample">
 		<level value="info" />
 	</logger>
 	

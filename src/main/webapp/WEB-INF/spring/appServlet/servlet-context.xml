@@ -28,7 +28,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="ch.genidea.mvcTest" />
+	<context:component-scan base-package="ch.genidea.mvcMongoExample" />
 
     <!-- Default bean name is 'mongo' -->
     <mongo:mongo id="mongo" host="localhost" port="27017"/>
@@ -38,6 +38,6 @@
         <beans:constructor-arg name="databaseName" value="jobfinder"/>
     </beans:bean>
 
-    <mongo:repositories base-package="ch.genidea.mvcTest.repository" />
+    <mongo:repositories base-package="ch.genidea.mvcMongoExample.repository" />
 	
 </beans:beans>

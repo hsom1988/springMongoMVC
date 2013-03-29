@@ -1,6 +1,6 @@
-package ch.genidea.mvcTest.main;
+package ch.genidea.mvcMongoExample.main;
 
-import ch.genidea.mvcTest.model.Person;
+import ch.genidea.mvcMongoExample.model.Person;
 import com.mongodb.Mongo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

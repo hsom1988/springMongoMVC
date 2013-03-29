@@ -1,4 +1,4 @@
-package ch.genidea.mvcTest.model;
+package ch.genidea.mvcMongoExample.model;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
