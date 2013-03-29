@@ -10,31 +10,30 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.*;
+import java.util.Locale;
 
 @Controller
 public class HomeController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
     private PersonRepository personRepository;
 
-	/**
-	 * Home page renderer
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+    /**
+     * Home page renderer
+     */
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String home(Locale locale, Model model) {
 
         logger.info("Home page");
-		
-		Iterable<Person> personList = personRepository.findAll();
 
-           model.addAttribute("personList", personList);
+        Iterable<Person> personList = personRepository.findAll();
 
-		return "home";
-	}
+        model.addAttribute("personList", personList);
+
+        return "home";
+    }
 
 
-	
 }

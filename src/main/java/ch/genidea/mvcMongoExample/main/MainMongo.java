@@ -13,7 +13,7 @@ public class MainMongo {
 
     private static final Logger log = LoggerFactory.getLogger(MainMongo.class);
 
-    public static void main (String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         MongoOperations mongoOperations = new MongoTemplate(new Mongo(), "database");
 
