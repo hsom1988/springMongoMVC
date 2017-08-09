@@ -3,16 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-    <!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+    <!-- The definition of the Root Spring Container shared by all Servlets and Filters
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/spring/root-context.xml</param-value>
     </context-param>
-
-    <!-- Creates the Spring Container shared by all Servlets and Filters -->
+    
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+    </listener> 
+
+    Creates the Spring Container shared by all Servlets and Filters-->
+    
 
     <!-- Processes application requests -->
     <servlet>
@@ -29,5 +31,27 @@
         <servlet-name>appServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    
+    
+    
+<mime-mapping>
+    <extension>eot</extension>
+    <mime-type>application/vnd.ms-fontobject</mime-type>
+</mime-mapping>
+
+<mime-mapping>
+    <extension>otf</extension>
+    <mime-type>font/opentype</mime-type>
+</mime-mapping>
+
+<mime-mapping>
+    <extension>ttf</extension>
+    <mime-type>font/truetype</mime-type>
+</mime-mapping>
+
+<mime-mapping>
+    <extension>woff</extension>
+    <mime-type>application/font-woff </mime-type>
+</mime-mapping>
 
 </web-app>
