@@ -2,9 +2,11 @@ package com.delivery.persistance;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Document
 public class Order {
@@ -25,18 +27,19 @@ public class Order {
 	private String destiny;
     private float price;
     private String priority;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
 	
-	private List<Package> packages;
+	private List<Map<String, Object>> packages;
 
-	private String state;
+	private String status;
 	
 	
 	public Order() {
 	}
 	
 	public Order(String id, Client client_id, String nameReceiver, String ciReceiver, String number, String destiny,
-			float price, String priority, Date date, List<Package> packages) {
+			float price, String priority, Date date, List<Map<String, Object>> packages) {
 		super();
 		this.id = id;
 		this.client_id = client_id;
@@ -50,12 +53,12 @@ public class Order {
 		this.packages = packages;
 	}
 
-	public String getState() {
-		return state;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setStatus(String state) {
+		this.status = state;
 	}
 
 	public Client getClient_id() {
@@ -106,11 +109,11 @@ public class Order {
 		this.ciReceiver = ciReceiver;
 	}
 
-	public List<Package> getPackages() {
+	public List<Map<String, Object>> getPackages() {
 		return packages;
 	}
 
-	public void setPackages(List<Package> packages) {
+	public void setPackages(List<Map<String, Object>> packages) {
 		this.packages = packages;
 	}
 	

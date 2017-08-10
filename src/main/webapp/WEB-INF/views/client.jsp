@@ -11,7 +11,7 @@
 
 <demo:header/>
 				<kendo:grid name="grid" pageable="true" sortable="true" height="550px" >
-			    	<kendo:grid-editable mode="popup" confirmation="Are you sure you want to remove this client?"/>
+			    	<kendo:grid-editable mode="inline" confirmation="Are you sure you want to remove this client?"/>
 			        <kendo:grid-toolbar>
 			            <kendo:grid-toolbarItem name="create"/>
 			        </kendo:grid-toolbar>
@@ -45,7 +45,6 @@
 			            <kendo:dataSource-schema>
 			                <kendo:dataSource-schema-model id="id">
 			                    <kendo:dataSource-schema-model-fields>
-			                    	<kendo:dataSource-schema-model-field name="id" type="string" editable="false" nullable="false"/>                    	
 			                        <kendo:dataSource-schema-model-field name="contactName" type="string">
 			                        	<kendo:dataSource-schema-model-field-validation required="true" />
 			                        </kendo:dataSource-schema-model-field>
@@ -62,24 +61,4 @@
 						</kendo:dataSource-schema>
 			        </kendo:dataSource>
 			    </kendo:grid> 
-			    
-			    <script>   
-			            //register custom validation rules
-			            /* (function ($, kendo) {
-			                $.extend(true, kendo.ui.validator, {
-			                     rules: { // custom rules
-			                         productnamevalidation: function (input, params) {
-			                             //check for the name attribute 
-			                             //if (input.filter("[name='productName']").length && input.val()) {
-			                                 return /^[A-Z]/.test(input.val());
-			                             }
-			                             return true;
-			                         }
-			                     },
-			                     messages: { //custom rules messages
-			                         productnamevalidation: "Product Name should start with capital letter"
-			                     }
-			                });
-			            })(jQuery, kendo); */
-			    </script>
 <demo:footer />

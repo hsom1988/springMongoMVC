@@ -1,5 +1,7 @@
 package com.delivery.repositories;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import com.delivery.persistance.Order;
 
@@ -13,5 +15,6 @@ import com.delivery.persistance.Order;
 public interface OrderRepository extends MongoRepository<Order, Long>{
 
 	Order findByNumber(String number);
+	List<Order> findByStatus(String status);
     
 }

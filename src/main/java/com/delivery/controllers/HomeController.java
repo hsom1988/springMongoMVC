@@ -8,12 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Locale;
 
@@ -40,19 +36,21 @@ public class HomeController {
         logger.info("Home page");
         model.addAttribute("clientList", client.findAll());
         model.addAttribute("client", new Client());
+        model.addAttribute("orderList", order.findAll());
+        model.addAttribute("order", new Order());
         return "home";
     }
         
-    @RequestMapping(value = "/client", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/client", method = RequestMethod.GET)
     public @ResponseBody ModelAndView clients() {
     	return new ModelAndView("client", "command", new Client());
-    }
+    }*/
     
-    @RequestMapping(value = "/order", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/order", method = RequestMethod.GET)
     public @ResponseBody ModelAndView orders() {
-    	Model = new ModelAndView("order", "command", new Order());
-    	
-    	return 
-    }
+    	ModelAndView model = new ModelAndView("order", "command", new Order());
+    	//model.addObject("clientList", client.findAll());
+    	return model;
+    }*/
     
 }

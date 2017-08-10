@@ -1,9 +1,10 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="kendo" uri="http://www.kendoui.com/jsp/tags"%>
 <%@taglib prefix="demo" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%> --%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -11,189 +12,163 @@
 <c:url value="/clients/clientUpdate" var="updateUrl" />
 <c:url value="/clients/clientDestroy" var="destroyUrl" />
 
-<!-- <link rel="stylesheet" type="text/css" href="http://www.prepbootstrap.com/Content/shieldui-lite/dist/css/light/all.min.css" />
-<script type="text/javascript" src="http://www.prepbootstrap.com/Content/shieldui-lite/dist/js/shieldui-lite-all.min.js"></script>
-
-<script type="text/javascript" src="http://www.prepbootstrap.com/Content/data/shortGridData.js"></script>
-
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#grid").shieldGrid({
-            dataSource: {
-                data: gridData,
-                schema: {
-                    fields: {
-                        id: { path: "id", type: Number },
-                        age: { path: "age", type: Number },
-                        name: { path: "name", type: String },
-                        company: { path: "company", type: String },
-                        month: { path: "month", type: Date },
-                        isActive: { path: "isActive", type: Boolean },
-                        email: { path: "email", type: String },
-                        transport: { path: "transport", type: String }
-                    }
-                }
-            },
-            sorting: {
-                multiple: true
-            },
-            rowHover: false,
-            columns: [
-                { field: "name", title: "Person Name", width: "120px" },
-                { field: "age", title: "Age", width: "80px" },
-                { field: "company", title: "Company Name" },
-                { field: "month", title: "Date of Birth", format: "{0:MM/dd/yyyy}", width: "120px" },
-                { field: "isActive", title: "Active" },
-                { field: "email", title: "Email Address", width: "250px" },
-                { field: "transport", title: "Custom Editor", width: "120px", editor: myCustomEditor },
-                {
-                    width: "104px",
-                    title: "Delete Column",
-                    buttons: [
-                        { cls: "deleteButton", commandName: "delete", caption: "<img src='http://www.prepbootstrap.com/Content/images/template/BootstrapEditableGrid/delete.png' /><span>Delete</span>" }
-                    ]
-                }
-            ],
-            editing: {
-                enabled: true,
-                event: "click",
-                type: "cell",
-                confirmation: {
-                    "delete": {
-                        enabled: true,
-                        template: function (item) {
-                            return "Delete row with ID = " + item.id
-                        }
-                    }
-                }
-            },
-            events:
-            {
-                getCustomEditorValue: function (e) {
-                    e.value = $("#dropdown").swidget().value();
-                    $("#dropdown").swidget().destroy();
+function doAjaxPost() {
+	// get the form values
+	var table = document.getElementById("dataTable");
+    var type_combo = document.getElementById("type").options;
+    var y;
+    var packages  = []
+    for(i = 1; i < table.rows.length-1; i++){
+        var package1 = {}
+        for(j = 0; j < table.rows[0].cells.length; j++){
+            y = table.rows[i].cells;
+            if (y[j].children[0].value != ''){
+                if(j==0){
+                    package1['description'] = y[j].children[0].value;
+                } else if (j==1){
+                    package1['weight'] = y[j].children[0].value;
+                } else if (j==2){
+                    package1['type'] = type_combo[type_combo.selectedIndex].text;
                 }
             }
-        });
-
-        function myCustomEditor(cell, item) {
-            $('<div id="dropdown"/>')
-                .appendTo(cell)
-                .shieldDropDown({
-                    dataSource: {
-                        data: ["motorbike", "car", "truck"]
-                    },
-                    value: !item["transport"] ? null : item["transport"].toString()
-                }).swidget().focus();
         }
-    });
+        if(Object.keys(package1).length !== 0){
+            packages.push(package1);
+        }
+    }
+    
+	var options = {'number': $('#number').val(),
+	               'client_id': $('#client_id').val(),
+                   'nameReceiver': $('#nameReceiver').val(),
+                   'ciReceiver': $('#ciReceiver').val(),
+                   'destiny': $('#destiny').val(),
+                   'price': $('#price').val(),
+                   'date': $('#date').val(),
+                   'packages': packages,
+    
+	};
+    
+	$.ajax({
+	    type: "POST",
+	    url: "orderCreate",
+	    data: JSON.stringify(options),
+        dataType: 'json', 
+        contentType: 'application/json',
+        mimeType: 'application/json',
+        
+	    success: function(response){
+	        // we have the response
+	        if(response.status == "Por entregar"){
+                window.location.href = "orderRead";
+	        }else{
+	            alert("Sorry, there is some thing wrong with the data provided.");
+	        }
+	    },
+	    error: function(e){
+	        alert('Error: ' + e);
+	    }
+	});
+}
+function onSelect(e) {
+        var dataItem = this.dataItem(e.item);
+        kendoConsole.log("event :: select (" + dataItem.text + " : " + dataItem.value + ")" );
+    }
+
 </script>
-
-<style type="text/css">
-    .sui-button-cell
-    {
-        text-align: center;
-    }
-
-    .sui-checkbox
-    {
-        font-size: 17px !important;
-        padding-bottom: 4px !important;
-    }
-
-    .deleteButton img
-    {
-        margin-right: 3px;
-        vertical-align: bottom;
-    }
-
-    .bigicon
-    {
-        color: #5CB85C;
-        font-size: 20px;
-    }
-</style> -->
 
 
 <demo:header />
-<form:form action="orders/orderCreate" method="post" >
-	<!-- <div class="col-md-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="text-center">Bootstrap Editable jQuery Grid <span class="fa fa-edit pull-right bigicon"></span></h4>
-        </div>
-        <div class="panel-body text-center">
-            <div id="grid"></div>
-        </div>
-    </div>
-</div> -->
-	<table>
+<table>
+	<tr>
+		<td colspan="2"><input type="button" onclick="doAjaxPost()"
+			id="submitButton" value="Register"></td>
+	</tr>
+	<tr>
+		<td>Number Order :</td>
+		<td><input type="text" id="number" /></td>
+	</tr>
+	<tr>
+		<td>Date :</td>
+		<td><input type="text" id="date" data-role="date"
+			data-inline="true" /></td>
+	</tr>
+	<tr>
+		<td>Client :</td>
+		<td><input id="client_id" />
+			<script>
+				function dropdownlist_select(e) {
+				  var item = e.item;
+				  var text = item.text();
+				  // Use the selected item or its text
+				}
+                jQuery("#client_id").kendoDropDownList({
+                    "dataSource": {
+                        "transport": {
+                            "read": {
+                                "contentType": "application/json",
+                                "type": "POST",
+                                "url": "/mvcTest/orders/clientlist"
+                            }
+                        }
+                    },
+                    "minLength": 3.0,
+                    "value": "id",
+                    "dataTextField": "contactName",
+                    "filter": "contains"
+                });
+                var dropdownlist = $("#client_id").data("kendoDropDownList");
+                dropdownlist.bind("select", dropdownlist_select);
+			</script>		
+		</td>
+	</tr>
+	<tr>
+		<td>Receiver :</td>
+		<td><input type="text" id="nameReceiver" /></td>
+	</tr>
+	<tr>
+		<td>ID Receiver :</td>
+		<td><input type="text" id="ciReceiver" /></td>
+	</tr>
+
+	<tr>
+		<td>Destiny :</td>
+		<td><input type="text" id="destiny" /></td>
+	</tr>
+	<tr>
+		<td>Price :</td>
+		<td><input type="text" id="price" /></td>
+	</tr>
+</table>
+
+<div class="pane-content" style="position: center;">
+	<table id="dataTable" style="width: 75%;" border="1">
+		<thead>
+			<tr>
+				<th>Description</th>
+				<th>Weight</th>
+				<th>Type</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><input type="text" name="description" /></td>
+				<td><input type="text" name="weight" /></td>
+				<td><select id="type" name="type">
+						<option value="paq">Paquete</option>
+						<option value="sob">Sobre</option>
+						<option value="bu">Bulto</option>
+				</select></td>
+				<td><input type="button" value="Delete Row"
+					onclick="deleteRow(this)" /></td>
+			</tr>
+		</tbody>
 		<tr>
-			<td>Number Order:</td>
-			<td><form:input path="number" /></td>
-		</tr>
-		<tr>
-			<td>Receiver :</td>
-			<td><form:input path="nameReceiver" /></td>
-		</tr>
-		<tr>
-			<td>ID Receiver :</td>
-			<td><form:input path="ciReceiver"/></td>
-		</tr>
-		
-		<tr>
-			<td>Destiny</td>
-			<td><form:input path="destiny" /></td>
-		</tr>
-		<tr>
-			<td>Price</td>
-			<td><form:input path="price"/></td>
-		</tr>
-		<tr>
-			<td>Date</td>
-			<td><form:input path="date" id="datepicker" data-role="date" data-inline="true"/></td>
-		</tr>
-		<tr>
-			<td colspan="2"><input type="submit" id="submitButton" value="Register"></td>
+			<td colspan="4"><input type="button" value="Add Row"
+				onclick="addRow('dataTable')" /></td>
 		</tr>
 	</table>
+</div>
 
-       
-                               
-</form:form>
-<script type="text/javascript">
-$(document).ready(function(){
-    $("#submitButton").click(function(e){
-         var formData = getFormData();
-         $.ajax({
-            type: 'POST', 
-            'url': 'http://localhost:8080/Test_ReportingUI/addDb.htm',
-            data: {jsonData: JSON.stringify(formData)},
-            dataType: 'json',
-            success: function(response){ 
-                try{
-                    var strResponse=jQuery.parseJSON(response);
-                }catch(err){}
-                if(response.status=='ok')
-                {
-                    alert("details added");
-                }
-                else
-                {
-                    alert("error happened");
-                }
-
-            },
-            timeout: 10000,
-            error: function(xhr, status, err){ 
-                if(status=='timeout')
-                {   
-                    alert('Request time has been out','');
-                }
-                console.log(status,err); 
-            }
-        }); 
-     });
-});
-</script>
 <demo:footer />

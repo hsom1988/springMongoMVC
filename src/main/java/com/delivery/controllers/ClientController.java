@@ -4,13 +4,12 @@ import com.delivery.persistance.*;
 import com.delivery.repositories.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
 import java.util.List;
@@ -21,13 +20,11 @@ import java.util.Map;
 public class ClientController {
 
     @Autowired
-    private MongoTemplate mongoTemplate;
-    @Autowired
     private ClientRepository clientRepository;
     
     @RequestMapping(value = "/client", method = RequestMethod.GET)
-    public String client() {
-        return "clients/client";
+    public @ResponseBody ModelAndView clients() {
+    	return new ModelAndView("client", "command", new Client());
     }
     
     @RequestMapping(value = "/clientRead", method = RequestMethod.POST)
@@ -51,7 +48,7 @@ public class ClientController {
     }
     
     @RequestMapping(value = "/clientCreate", method = RequestMethod.POST)
-    public @ResponseBody Client clientCreate(@RequestParam Map<String, Object> model) throws ParseException {
+    public @ResponseBody Client clientCreate(@RequestBody Map<String, Object> model) throws ParseException {
     	Client client_search = clientRepository.findByCedula((String)model.get("cedula"));
     	if (client_search != null){
 	        System.out.println("Error username already exists");
